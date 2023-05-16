@@ -35,7 +35,7 @@ Planned.init(
             key: 'id'
         }
     },
-    plannedType_id: {
+    planType_id: {
         type: DataTypes.INTEGER,
         references: {
             model: 'planType',

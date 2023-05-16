@@ -12,13 +12,13 @@ Settings.init(
       primaryKey: true,
       autoIncrement: true
     },
-    location_name: {
+    setting_name: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    timezone_name: {
+    setting_value: {
         type: DataTypes.STRING,
-        default: 'EST'
+        allowNull: false
     }
   },
   {
