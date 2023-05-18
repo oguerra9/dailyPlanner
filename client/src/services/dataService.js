@@ -13,7 +13,9 @@ import http from "../http-common.js";
 class DataService {
     // functions to call planned routes
     async getAllPlanned() {
-        return await http.get("/planned");
+        let plannedEvents = await http.get("/planned");
+        console.log(`planned events = ${plannedEvents}`);
+        return plannedEvents;
     }
 
     getPlanned(id) {
