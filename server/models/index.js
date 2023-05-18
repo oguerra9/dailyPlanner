@@ -26,4 +26,5 @@ module.exports = {
   Planned,
   Category,
   PlanType,
+  Settings
 };

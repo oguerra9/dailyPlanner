@@ -13,10 +13,10 @@ Planned.init(
       autoIncrement: true
     },
     planned_date: {
-      type: DataTypes.DATE,
+      type: DataTypes.INTEGER,
     },
     planned_time: {
-      type: DataTypes.TIME,
+      type: DataTypes.INTEGER,
     },
     planned_title: {
         type: DataTypes.STRING,

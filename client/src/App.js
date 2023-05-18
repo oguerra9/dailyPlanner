@@ -1,36 +1,45 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PlannerContainer from "./pages/PlannerContainer";
-import Day from "./pages/Day";
-import Week from "./pages/Week";
-import Month from "./pages/Month";
-import Settings from "./pages/Settings";
-import Header from "./components/Header";
+import NavBar from "./components/NavBar";
+import Settings from './pages/Settings';
 
 function App() {
     return (
         <Router>
             <div className="flex-column justify-center align-center min-100-vh bg-primary">
-                <Header />
+                <NavBar />
                 <Routes>
                     <Route 
                         path="/" 
-                        element={<Day />}
+                        element={<PlannerContainer view={'day'}/>}
                     />
                     <Route 
                         path="/day" 
-                        element={<Day />}
+                        element={<PlannerContainer view={'day'}/>}
+                    />
+                    <Route 
+                        path="/day/:id" 
+                        element={<PlannerContainer view={'day'}/>}
                     />
                     <Route 
                         path="/week" 
-                        element={<Week />}
+                        element={<PlannerContainer view={'week'}/>}
                     />
                     <Route 
-                        path="/month"
-                        element={<Month />}
+                        path="/week/:id" 
+                        element={<PlannerContainer view={'week'}/>}
                     />
                     <Route 
-                        path="/settings"
+                        path="/month" 
+                        element={<PlannerContainer view={'month'}/>}
+                    />
+                    <Route 
+                        path="/month/:id" 
+                        element={<PlannerContainer view={'month'}/>}
+                    />
+                    <Route 
+                        path="/settings" 
                         element={<Settings />}
                     />
                 </Routes>

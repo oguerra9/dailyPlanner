@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.dateBar {
+  background-color: white;
+  text-align: center;
+  justify-content: center;
+}

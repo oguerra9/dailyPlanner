@@ -3,6 +3,15 @@ const { Planned, Category, PlanType } = require('../../models');
 
 // The `/api/planneds` endpoint
 
+
+// // GET all books
+// router.get('/', (req, res) => {
+//   // Get all books from the book table
+//   Planned.findAll().then((plannedData) => {
+//     res.json(plannedData);
+//   });
+// });
+
 // get all planned events
 router.get('/', async (req, res) => {
   // find all planned events

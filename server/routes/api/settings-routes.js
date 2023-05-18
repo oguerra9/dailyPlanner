@@ -30,21 +30,21 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// get one setting by name
-router.get('/:setting_name', async (req, res) => {
-    // find a single setting by its `setting_name`
-    try {
-      const settingsData = await Settings.findByPk(req.params.setting_name);
+// // get one setting by name
+// router.get('/:setting_name', async (req, res) => {
+//     // find a single setting by its `setting_name`
+//     try {
+//       const settingsData = await Settings.findOne({ where: { setting_name: req.params.setting_name } });
       
-      if (!settingsData) {
-        res.status(404).json({ message: 'Setting could not be found'})
-      }
-      res.status(200).json(settingsData);
+//       if (!settingsData) {
+//         res.status(404).json({ message: 'Setting could not be found'})
+//       }
+//       res.status(200).json(settingsData);
       
-    } catch (err) {
-      res.status(500).json(err)
-    }
-});
+//     } catch (err) {
+//       res.status(500).json(err)
+//     }
+// });
 
 // create new setting
 router.post('/', (req, res) => {
@@ -81,22 +81,22 @@ router.put('/:id', (req, res) => {
         });
 });
 
-// update setting
-router.put('/:setting_name', (req, res) => {
-    // update setting data
-    Settings.update(req.body, {
-        where: {
-            id: req.params.setting_name,
-        },
-    })
-        .then((setting) => {
-            res.status(200).json(setting);
-        })
-        .catch((err) => {
-            // console.log(err);
-            res.status(400).json(err);
-        });
-});
+// // update setting
+// router.put('/:setting_name', (req, res) => {
+//     // update setting data
+//     Settings.update(req.body, {
+//         where: {
+//           setting_name: req.params.setting_name,
+//         },
+//     })
+//         .then((setting) => {
+//             res.status(200).json(setting);
+//         })
+//         .catch((err) => {
+//             // console.log(err);
+//             res.status(400).json(err);
+//         });
+// });
 
 router.delete('/:id', async (req, res) => {
   // delete one setting by its `id` value
@@ -114,5 +114,22 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+// router.delete('/:setting_name', async (req, res) => {
+//   // delete one setting by its `id` value
+//   try {
+//     const settingsData = await Settings.destroy({
+//       where: {
+//         setting_name: req.params.setting_name,
+//       },
+//     });
+//     res.status(200).json(settingsData);
+//     if (!settingsData) {
+//       res.status(404).json({ message: 'Setting could not be found'})
+//     }
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 module.exports = router;

@@ -1,37 +1,22 @@
 import React, { useState } from 'react';
-import NavBar from '../components/NavBar';
-import Day from './Day';
-import Week from './Week';
-import Month from './Month';
-import Settings from './Settings';
+import { useParams, Link } from 'react-router-dom';
+import DateBar from '../components/DateBar';
+import EventList from '../components/EventList';
+import Date from '../utils/dateMethods';
 
-export default function PlannerContainer() {
-  const [currentPage, setCurrentPage] = useState('Day');
 
-  // This method is checking to see what the value of `currentPage` is. Depending on the value of currentPage, we return the corresponding component to render.
-  const renderPage = () => {
-    console.log(`current page = ${currentPage}`)
-    if (currentPage === 'Day') {
-      return <Day />;
-    }
-    if (currentPage === 'Week') {
-      return <Week />;
-    }
-    if (currentPage === 'Month') {
-      return <Month />;
-    }
-    if (currentPage === 'Settings') {
-        return <Settings />;
-    }
-    return <Day />;
-  };
+export default function PlannerContainer(props) {
+    let view = props.view;
+    let { timestamp } = useParams();
 
-  const handlePageChange = (page) => setCurrentPage(page);
+    if (!(timestamp > 0)) {
+        timestamp = (new Date()).getTime();
+    }
 
-  return (
-    <div>
-        <NavBar currentPage={currentPage} handlePageChange={handlePageChange} />
-        {renderPage()}
-    </div>
-  );
+    return (
+        <div>
+            <DateBar view={view} timestamp={timestamp} />
+            <EventList view={view} timestamp={timestamp} />
+        </div>
+    );
 }
