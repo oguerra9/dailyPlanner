@@ -17,3 +17,35 @@ code {
   text-align: center;
   justify-content: center;
 }
+
+.Work {
+  background-color: red;
+}
+
+.Travel {
+  background-color: orange;
+}
+
+.FreeTime {
+  background-color: yellow;
+}
+
+.Other {
+  background-color: green;
+}
+
+#Appointment {
+  color: blue;
+}
+
+#ToDo {
+  color: indigo;
+}
+
+#DueDate {
+  color: purple;
+}
+
+#Other {
+  color: pink;
+}

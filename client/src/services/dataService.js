@@ -1,21 +1,9 @@
 import http from "../http-common.js";
 
-// export const getAllPlanned = async () => {
-//     try {
-//         let plannedEvents = await http.get("/planned");
-//         console.log(`planned events: ${JSON.stringify(plannedEvents)}`);
-//         return plannedEvents;
-//     } catch (err) {
-//         console.log(err)
-//     }
-// };
-
 class DataService {
     // functions to call planned routes
-    async getAllPlanned() {
-        let plannedEvents = await http.get("/planned");
-        console.log(`planned events = ${plannedEvents}`);
-        return plannedEvents;
+    getAllPlanned() {
+        return http.get("/planned");
     }
 
     getPlanned(id) {

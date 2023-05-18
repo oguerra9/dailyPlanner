@@ -3,10 +3,10 @@
       "planType_name": "Appointment"
     },
     {
-      "planType_name": "To Do"
+      "planType_name": "ToDo"
     },
     {
-      "planType_name": "Due Date"
+      "planType_name": "DueDate"
     },
     {
       "planType_name": "Other"
