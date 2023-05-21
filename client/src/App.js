@@ -19,7 +19,7 @@ function App() {
                         element={<PlannerContainer view={'day'}/>}
                     />
                     <Route 
-                        path="/day/:id" 
+                        path="/day/:timestamp" 
                         element={<PlannerContainer view={'day'}/>}
                     />
                     <Route 
@@ -27,7 +27,7 @@ function App() {
                         element={<PlannerContainer view={'week'}/>}
                     />
                     <Route 
-                        path="/week/:id" 
+                        path="/week/:timestamp" 
                         element={<PlannerContainer view={'week'}/>}
                     />
                     <Route 
@@ -35,7 +35,7 @@ function App() {
                         element={<PlannerContainer view={'month'}/>}
                     />
                     <Route 
-                        path="/month/:id" 
+                        path="/month/:timestamp" 
                         element={<PlannerContainer view={'month'}/>}
                     />
                     <Route 
