@@ -1,5 +1,7 @@
 const router = require('express').Router();
+const Date = require('../../utils/dateMethods');
 const { Planned, Category, PlanType } = require('../../models');
+const { Op } = require('sequelize');
 
 // The `/api/planneds` endpoint
 
@@ -40,6 +42,93 @@ router.get('/:id', async (req, res) => {
     }
     res.status(200).json(plannedData);
     
+  } catch (err) {
+    res.status(500).json(err)
+  }
+});
+
+// router.get('/range', async (req, res) => {
+//   try {
+//     let rangeEvents = [];
+//     rangeEvents = await Planned.findAll({
+//       where: {
+//         date: {
+//           [Op.between]: [new Date(req.query.rangeStart), new Date(req.query.rangeEnd)],
+//          },
+//       },
+//       include: [{ model: Category }, { model: PlanType }]
+//     });
+
+//     res.status(200).json(rangeEvents);
+//   } catch (err) {
+//     res.status(500).json(err)
+//   }
+// });
+
+router.get('/day/:timestamp', async (req, res) => {
+  try {
+    let timeDate = new Date(parseInt(req.params.timestamp));
+    console.log(`timeDate = ${timeDate}`);
+    let dayStart = timeDate.getDayStart();
+    console.log(`day start = ${dayStart}`);
+    let dayEnd = timeDate.getDayEnd();
+    console.log(`day end = ${dayEnd}`);
+    let rangeEvents = [];
+    
+    rangeEvents = await Planned.findAll({
+      where: {
+        planned_date: {
+          [Op.between]: [dayStart, dayEnd],
+         },
+      },
+      include: [{ model: Category }, { model: PlanType }]
+    });
+
+    console.log(`range events searched`);
+
+    res.status(200).json(rangeEvents);
+  } catch (err) {
+    res.status(500).json(err)
+  }
+});
+
+router.get('/week/:timestamp', async (req, res) => {
+  try {
+    let timeDate = new Date(timestamp);
+    let weekStart = new Date(timeDate.getWeekStart());
+    let weekEnd = new Date(timeDate.getWeekEnd());
+    let rangeEvents = [];
+    rangeEvents = await Planned.findAll({
+      where: {
+        date: {
+          [Op.between]: [weekStart, weekEnd],
+         },
+      },
+      include: [{ model: Category }, { model: PlanType }]
+    });
+
+    res.status(200).json(rangeEvents);
+  } catch (err) {
+    res.status(500).json(err)
+  }
+});
+
+router.get('/month/:timestamp', async (req, res) => {
+  try {
+    let timeDate = new Date(timestamp);
+    let monthStart = new Date(timeDate.getMonthStart());
+    let monthEnd = new Date(timeDate.getMonthEnd());
+    let rangeEvents = [];
+    rangeEvents = await Planned.findAll({
+      where: {
+        date: {
+          [Op.between]: [monthStart, monthEnd],
+         },
+      },
+      include: [{ model: Category }, { model: PlanType }]
+    });
+
+    res.status(200).json(rangeEvents);
   } catch (err) {
     res.status(500).json(err)
   }

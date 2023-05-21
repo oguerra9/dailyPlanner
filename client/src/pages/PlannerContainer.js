@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import DateBar from '../components/DateBar';
-import EventList from '../components/EventList';
 import Date from '../utils/dateMethods';
 import EventsContainer from '../components/EventsContainer';
+import ToDoList from '../components/ToDoList';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+// top right bottom left
+
 
 export default function PlannerContainer(props) {
     let view = props.view;
@@ -13,10 +19,22 @@ export default function PlannerContainer(props) {
         timestamp = (new Date()).getTime();
     }
 
+    const [pageDate, setPageDate] = useState(timestamp);
+
+    console.log(`planner container timestamp = ${timestamp}`);
+
     return (
-        <div>
-            <DateBar view={view} timestamp={timestamp} />
-            <EventsContainer view={view} timestamp={timestamp} />
+        <div style={{'backgroundColor':'white', 'border':'5px solid blue'}}>
+            <DateBar view={view} timestamp={pageDate} />
+            <Row>
+                <Col style={{'width':'50%', 'margin':'1%'}}>
+                    <EventsContainer view={view} timestamp={pageDate} />
+                </Col>
+                <Col style={{'width':'30%', 'margin': '1%'}}>
+                    <ToDoList view={view} timestamp={pageDate} />
+                </Col>
+            </Row>
         </div>
     );
+
 }

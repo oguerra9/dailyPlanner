@@ -3,10 +3,11 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import DataService from '../services/dataService';
 
 export default function NewEventForm() {
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState(new Date());   
 
     return (
         <Form>
@@ -47,25 +48,13 @@ export default function NewEventForm() {
                     <Col>
                         <Form.Group className="mb-3" controlId="eventCategory">
                             <Form.Label>Category</Form.Label>
-                            <Form.Select>
-                                <option>Select</option>
-                                <option value="work">Work</option>
-                                <option value="travel">Travel</option>
-                                <option value="free-time">Free Time</option>
-                                <option value="other">Other</option>
-                            </Form.Select>
+                            <CategoryList />
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group className="mb-3" controlId="eventType">
                             <Form.Label>Type</Form.Label>
-                            <Form.Select>
-                                <option>Select</option>
-                                <option value="appointment">Appointment</option>
-                                <option value="to-do">To Do</option>
-                                <option value="due-date">Due Date</option>
-                                <option value="other">Other</option>
-                            </Form.Select>
+                            <PlanTypeList />
                         </Form.Group>
                     </Col>
                 </Row>
@@ -75,4 +64,72 @@ export default function NewEventForm() {
             </Button>
         </Form>
     );
+}
+
+function CategoryList() {
+    const [myCategories, setMyCategories] = useState({});
+    const [isLoadingCat, setLoadingCat] = useState(true);
+
+    useEffect(() => {
+        getMyCategories();
+    }, []);
+
+    const getMyCategories = () => {
+        (DataService.getAllCategories()).then((response) => {
+            setMyCategories(response.data);
+            setLoadingCat(false);
+            console.log(`categories: ${response.data}`);
+        });
+    };
+
+    if (isLoadingCat) {
+        return (
+            <Form.Select>
+                <option>Select</option>
+                <option>Loading...</option>
+            </Form.Select>
+        );
+    }
+    return (
+        <Form.Select>
+            <option>Select</option>
+            {myCategories.map(category => (
+                <option key={category.id} value={category.category_name}>{category.category_name}</option>
+            ))}
+        </Form.Select>
+    )
+}
+
+function PlanTypeList() {
+    const [myPlanTypes, setMyPlanTypes] = useState({});
+    const [isLoadingPT, setLoadingPT] = useState(true);
+
+    useEffect(() => {
+        getMyPlanTypes();
+    }, []);
+
+    const getMyPlanTypes = () => {
+        (DataService.getAllPlanTypes()).then((response) => {
+            setMyPlanTypes(response.data);
+            setLoadingPT(false);
+            console.log(`plan types: ${response.data}`);
+        });
+    };
+
+    if (isLoadingPT) {
+        return (
+            <Form.Select>
+                <option>Select</option>
+                <option>Loading...</option>
+            </Form.Select>
+        );
+    }
+    return (
+        <Form.Select>
+            <option>Select</option>
+            {myPlanTypes.map(planType => (
+                <option key={planType.id} value={planType.planType_name}>{planType.planType_name}</option>
+            ))}
+        </Form.Select>
+    )
 }

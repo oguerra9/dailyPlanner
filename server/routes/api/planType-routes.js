@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { PlanType, Planned } = require('../../models');
+const { PlanType, Planned, Category } = require('../../models');
 
 // The `/api/planTypes` endpoint
 
@@ -26,6 +26,28 @@ router.get('/:id', async (req, res) => {
     res.status(200).json(planTypeData);
     if (!planTypeData) {
       res.status(404).json({ message: 'No planType could be find by that id!'})
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
+router.get('/planned/:id', async (req, res) => {
+  // find one planType by its `id` value
+  // be sure to include its associated Planned Events
+  try {
+    const plannedList = await Planned.findAll({
+      where: {
+        planType_id: req.params.id,
+      },
+      include: [{ model: Category }],
+    });
+    
+    res.status(200).json(plannedList);
+
+    if (!plannedList) {
+      res.status(404).json({ message: 'No planned events could be found with that planType!'})
     }
   } catch (err) {
     res.status(500).json(err);

@@ -10,6 +10,21 @@ class DataService {
         return http.get(`/planned/${id}`);
     }
 
+    getPlannedDay(timestamp) {
+        console.log(`getPlannedDay called`);
+        return http.get(`planned/day/${timestamp}`);
+    }
+
+    getPlannedWeek(timestamp) {
+        console.log(`planned/week/${timestamp}`);
+        return http.get(`planned/week/${timestamp}`);
+    }
+
+    getPlannedMonth(timestamp) {
+        console.log(`planned/month/${timestamp}`);
+        return http.get(`planned/month/${timestamp}`);
+    }
+
     createPlanned(data) {
         return http.post("/planned", data);
     }
@@ -52,6 +67,10 @@ class DataService {
 
     getPlanType(id) {
         return http.get(`/planTypes/${id}`);
+    }
+
+    getAllToDos() {
+        return http.get(`/planTypes/planned/2`);
     }
 
     createPlanType(data) {

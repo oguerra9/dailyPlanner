@@ -10,6 +10,7 @@ export default function DateBar(props) {
     let view = props.view;
     let timestamp = props.timestamp;
     
+
     const [pageDate, setPageDate] = useState(new Date(timestamp));
 
     const handleIncrement = () => {
@@ -32,6 +33,8 @@ export default function DateBar(props) {
         }
     };
     
+    console.log(`page date = ${pageDate}`);
+
     let dateString = 'incorrect';
 
     if (view === 'day') {
@@ -50,7 +53,7 @@ export default function DateBar(props) {
 
 
     return (
-        <Container fluid className='dateBar'>
+        <Container fluid className='dateBar' style={{'width':'50%'}}>
             <Row>
                 <Col md="auto"><Button onClick={handleDecrement}>{'<'}</Button></Col>
                 <Col><h1>{dateString}</h1></Col>

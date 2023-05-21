@@ -1,6 +1,9 @@
+const Date = require('../utils/dateMethods');
+
 const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection');
+
 
 class Planned extends Model {}
 
@@ -13,10 +16,12 @@ Planned.init(
       autoIncrement: true
     },
     planned_date: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DATE,
+      defaultValue: ((new Date()).getMidday())
     },
     planned_time: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
+      defaultValue: "00:00"
     },
     planned_title: {
         type: DataTypes.STRING,

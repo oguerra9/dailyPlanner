@@ -1,12 +1,11 @@
-let ms_in_one_day = 86400000;
-let ms_in_one_week = ms_in_one_day * 7;
+const ms_in_one_day = 86400000;
+const ms_in_one_week = ms_in_one_day * 7;
 
 Date.prototype.getTimelessStamp = function() {
-    this.setHours(0);
-    this.setMinutes(0);
-    this.setSeconds(0);
-    this.setMilliseconds(0);
-    return this.getTime();
+    let timeStamp = this.getTime();
+    let newDate = new Date(timeStamp);
+    newDate.setHours(0, 0, 0, 0);
+    return newDate.getTime();
 };
 
 Date.prototype.isLeapYear = function() {
@@ -118,19 +117,57 @@ Date.prototype.getDayName = function() {
     }
 };
 
-Date.prototype.getWeekStart = function() {
-    let weekDay = this.getDay();
-    let rewindTime = weekDay * ms_in_one_day;
-    let newTimestamp = this.getTime() - rewindTime;
-    return (new Date(newTimestamp));
+
+Date.prototype.getDayStart = function() {
+    console.log(`finding start of date: ${JSON.stringify(this)}`);
+    let dayStart = new Date(this.getTimelessStamp());
+    console.log(`found day start: ${JSON.stringify(dayStart)}`);
+    return dayStart;
 };
 
-Date.prototype.getWeekEnd = function() {
-    let weekDay = this.getDay();
-    let ffTime = (6 - weekDay) * ms_in_one_day;
-    let newTimestamp = this.getTime() + ffTime;
-    return (new Date(newTimestamp));
+
+Date.prototype.getDayEnd = function() {
+    let currDay = new Date(this.getTime());
+    let dayEnd = new Date(currDay.setHours(23, 59, 59, 99));
+    return dayEnd;
 };
+
+
+Date.prototype.getWeekStart = function() {
+    let currDay = new Date(this.getTime());
+    let weekDay = this.getDay();
+    let weekStart = new Date(currDay.setDate(currDay.getDate() - weekDay));
+    weekStart = new Date(weekStart.getDayStart());
+    return weekStart;
+};
+
+
+Date.prototype.getWeekEnd = function() {
+    let currDay = new Date(this.getTime());
+    let weekDay = this.getDay();
+    let dayDiff = 6 - weekDay;
+    let weekEnd = new Date(currDay.setDate(currDay.getDate() + dayDiff));
+    weekEnd = new Date(weekEnd.getDayEnd());
+    return weekEnd;
+};
+
+
+Date.prototype.getMonthStart = function() {
+    let currDay = new Date(this.getTime());
+    let monthStart = new Date(currDay.setDate(1));
+    monthStart = monthStart.getDayStart();
+    return monthStart;
+};
+
+
+Date.prototype.getMonthEnd = function() {
+    let numDays = this.getDaysInMonth();
+    let currDay = new Date(this.getTime());
+    let monthEnd = new Date(currDay.setDate(numDays));
+    monthEnd = monthEnd.getDayEnd();
+    return monthEnd;
+};
+
 
 Date.prototype.getDisplayMonth = function() {
     return (this.getMonth() + 1);

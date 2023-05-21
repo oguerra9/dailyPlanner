@@ -1,7 +1,5 @@
 [
     {
-        "planned_date": 1234,
-        "planned_time": 765,
         "planned_title": "Sample Event Title",
         "planned_am": true,
         "planned_description": "this is a sample event description",
@@ -10,8 +8,6 @@
         "planned_active": true
     },
     {
-        "planned_date": 54321,
-        "planned_time": 123,
         "planned_title": "Second Sample Event",
         "planned_am": true,
         "planned_description": "this is my second sample event",
@@ -20,8 +16,6 @@
         "planned_active": true
     },
     {
-        "planned_date": 765498,
-        "planned_time": 345,
         "planned_title": "Third Sample Event",
         "planned_am": false,
         "planned_description": "this is my third sample event",

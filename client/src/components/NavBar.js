@@ -1,8 +1,9 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import '../index.css';
 
-function BasicExample() {
+function NavBar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -21,4 +22,4 @@ function BasicExample() {
   );
 }
 
-export default BasicExample;
+export default NavBar;
