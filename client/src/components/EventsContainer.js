@@ -74,7 +74,6 @@ function EventList(props) {
     }, []);
 
     const getDayEvents = (timestamp) => {
-        setMyEvents([]);
         (DataService.getPlannedDay(timestamp)).then((response) => {
             setMyEvents(response.data);
             setLoading(false);
@@ -83,7 +82,6 @@ function EventList(props) {
     };
 
     const getWeekEvents = (timestamp) => {
-        setMyEvents([]);
         (DataService.getPlannedWeek(timestamp)).then((response) => {
             setMyEvents(response.data);
             setLoading(false);
@@ -92,7 +90,6 @@ function EventList(props) {
     };
 
     const getMonthEvents = (timestamp) => {
-        setMyEvents([]);
         (DataService.getPlannedMonth(timestamp)).then((response) => {
             setMyEvents(response.data);
             setLoading(false);

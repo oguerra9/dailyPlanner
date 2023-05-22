@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Date from '../utils/dateMethods';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -32,8 +33,6 @@ export default function DateBar(props) {
             setPageDate(pageDate.prevMonth());
         }
     };
-    
-    console.log(`page date = ${pageDate}`);
 
     let dateString = 'incorrect';
 
@@ -55,9 +54,13 @@ export default function DateBar(props) {
     return (
         <Container fluid className='dateBar' style={{'width':'50%'}}>
             <Row>
-                <Col md="auto"><Button onClick={handleDecrement}>{'<'}</Button></Col>
+                <Col md="auto">
+                    <Button onClick={handleDecrement}>{'<'}</Button>
+                </Col>
                 <Col><h1>{dateString}</h1></Col>
-                <Col md="auto"><Button onClick={handleIncrement}>{'>'}</Button></Col>
+                <Col md="auto">
+                    <Button onClick={handleIncrement}>{'>'}</Button>
+                </Col>
             </Row>
         </Container>
     );
