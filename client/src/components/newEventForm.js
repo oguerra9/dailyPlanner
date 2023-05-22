@@ -16,8 +16,6 @@ export default function NewEventForm() {
             planned_am: '',
             planned_description: '',
             category_id: '',
-            category_name: '',
-            planType_name: '',
             planType_id: '',
             planned_active: '',
         }

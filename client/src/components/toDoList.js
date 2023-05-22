@@ -4,32 +4,47 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import NewEventForm from './NewEventForm';
+import NewToDoForm from './NewToDoForm';
 import DataService from '../services/dataService';
 import Popover from 'react-bootstrap/Popover';
+import Modal from 'react-bootstrap/Modal';
 
 export default function ToDoList(props) {
+    const [show, setShow] = useState(false);
+
     let view = props.view;
     let timestamp = props.timestamp;
 
     console.log(`to do list timestamp = ${timestamp}`);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <div style={{'border':'5px solid red'}}>           
                 <Container>
                     <Row style={{'backgroundColor':'gray'}}>
                         <Col>
-                            <h2>To Do</h2>
+                            <h2>To-Do</h2>
                         </Col>
                         <Col md="auto">
-                            <Button>+</Button>
+                            <Button onClick={handleShow}>+</Button>
                         </Col>
                     </Row>
                 </Container>
 
                 <Container>
                     <ToDoItems />
-                </Container>            
+                </Container>   
+
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>New To-Do</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <NewToDoForm />
+                    </Modal.Body>
+                </Modal>         
         </div>
     );
 }
