@@ -32,11 +32,34 @@ export default function NewEventForm() {
 
     const submitForm = (event) => {
         event.preventDefault();
+
+        let currDate = new Date();
+        let currTS = currDate.getTime();
+
         console.log(`new event form data = ${JSON.stringify(newEventFormData)}`);
         let eventDate = new Date(newEventFormData.planned_date);
+        let objDate = new Date(`${eventDate.getMonthName()} ${eventDate.getDate()} ${eventDate.getFullYear()} ${newEventFormData.planned_time}`);
+        let objDateTS = objDate.getTime();
+        console.log(`obj date = ${objDate}`);
+        newEventFormData.planned_date = objDate;
         console.log(`event date = ${JSON.stringify(eventDate)}`);
+        console.log(`event time = ${JSON.stringify(newEventFormData.planned_time)}`);
+        newEventFormData.category_id = parseInt(newEventFormData.category_id);
+        newEventFormData.planType_id = parseInt(newEventFormData.planType_id);
 
-        newEventFormData.planned_am = true;
+        let eventHour = objDate.getHours();
+        if (eventHour < 12) {
+            newEventFormData.planned_am = true;
+        } else {
+            newEventFormData.planned_am = false;
+        }
+
+        if (objDateTS < currTS) {
+            newEventFormData.planned_active = false;
+        } else {
+            newEventFormData.planned_active = true;
+        }
+        
 
         (DataService.createPlanned(newEventFormData)).then((response) => {
             console.log(response.data);
