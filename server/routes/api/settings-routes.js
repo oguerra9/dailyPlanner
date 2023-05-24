@@ -5,6 +5,7 @@ const { Settings } = require('../../models');
 
 // get all settings
 router.get('/', async (req, res) => {
+  console.log(`[GET /settings/]`);
   // find all settings
   try {
     const settingsData = await Settings.findAll();
@@ -16,6 +17,7 @@ router.get('/', async (req, res) => {
 
 // get one setting by ID
 router.get('/:id', async (req, res) => {
+  console.log(`[GET /settings/:id]`);
   // find a single setting by its `id`
   try {
     const settingsData = await Settings.findByPk(req.params.id);
@@ -48,6 +50,7 @@ router.get('/:id', async (req, res) => {
 
 // create new setting
 router.post('/', (req, res) => {
+  console.log(`[POST /settings/]`);
   /* req.body should look like this...
     {
       setting_name: STRING,
@@ -66,6 +69,7 @@ router.post('/', (req, res) => {
 
 // update setting
 router.put('/:id', (req, res) => {
+  console.log(`[PUT /settings/:id]`);
   // update setting data
     Settings.update(req.body, {
         where: {
@@ -99,6 +103,7 @@ router.put('/:id', (req, res) => {
 // });
 
 router.delete('/:id', async (req, res) => {
+  console.log(`[DELETE /settings/:id]`);
   // delete one setting by its `id` value
   try {
     const settingsData = await Settings.destroy({

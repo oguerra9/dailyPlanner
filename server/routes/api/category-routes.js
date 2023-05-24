@@ -6,6 +6,7 @@ const { Category, Planned } = require('../../models');
 router.get('/', async (req, res) => {
   // find all categories
   // be sure to include its associated Planned events
+  console.log(`[GET /categories/]`);
   try {
     const categoryData = await Category.findAll({
       include: [{ model: Planned}],
@@ -19,6 +20,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Planned Events
+  console.log(`[GET /categories/:id]`);
   try {
     const categoryData = await Category.findByPk(req.params.id, {
       include: [{ model: Planned }],
@@ -33,6 +35,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  console.log(`[POST /categories/]`);
   // create a new category
   try {
     const categoryData = await Category.create(req.body);
@@ -43,6 +46,7 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
+  console.log(`[PUT /categories/:id]`);
   // update a category by its `id` value
   try {
     const categoryData = await Category.update(req.body, {
@@ -61,6 +65,7 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
+  console.log(`[DELETE /categories/:id]`);
   // delete a category by its `id` value
   try {
     const plannedsData = await Planned.destroy({

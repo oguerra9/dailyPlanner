@@ -12,11 +12,6 @@ import Modal from 'react-bootstrap/Modal';
 export default function ToDoList(props) {
     const [show, setShow] = useState(false);
 
-    let view = props.view;
-    let timestamp = props.timestamp;
-
-    console.log(`to do list timestamp = ${timestamp}`);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -61,7 +56,7 @@ function ToDoItems() {
         (DataService.getAllToDos()).then((response) => {
             setMyToDos(response.data);
             setLoading(false);
-            console.log(`to do list: ${JSON.stringify(response.data)}`);
+            console.log(`[ToDoList/ToDoItems/getAllToDos/DS.getAllToDos]: to do items ${JSON.stringify(response.data)}`);
         });
     };
         
@@ -74,7 +69,7 @@ function ToDoItems() {
             {myToDos.map(toDo => (
                 
                 <OverlayTrigger
-                    trigger="hover"
+                    trigger="hover || focus"
                     key={toDo.id}
                     placement="left"
                     overlay={

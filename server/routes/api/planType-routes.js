@@ -4,6 +4,7 @@ const { PlanType, Planned, Category } = require('../../models');
 // The `/api/planTypes` endpoint
 
 router.get('/', async (req, res) => {
+  console.log(`[GET /planTypes/]`);
   // find all planTypes
   // be sure to include its associated Planned events
   try {
@@ -17,6 +18,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
+  console.log(`[GET /planTypes/:id]`);
   // find one planType by its `id` value
   // be sure to include its associated Planned Events
   try {
@@ -34,6 +36,7 @@ router.get('/:id', async (req, res) => {
 
 
 router.get('/planned/:id', async (req, res) => {
+  console.log(`[GET /planTypes/planned/:id]`);
   // find one planType by its `id` value
   // be sure to include its associated Planned Events
   try {
@@ -55,6 +58,7 @@ router.get('/planned/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  console.log(`[POST /planTypes/]`);
   // create a new planType
   try {
     const planTypeData = await PlanType.create(req.body);
@@ -65,6 +69,7 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
+  console.log(`[PUT /planTypes/:id]`);
   // update a planType by its `id` value
   try {
     const planTypeData = await PlanType.update(req.body, {
@@ -83,6 +88,7 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
+  console.log(`[DELETE /planTypes/:id]`);
   // delete a planType by its `id` value
   try {
     const plannedsData = await Planned.destroy({

@@ -9,16 +9,29 @@ import Date from '../utils/dateMethods';
 import DataService from '../services/dataService';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-//import EventList from './EventList';
+import { usePlannerContext } from '../utils/PlannerContext';
 
-export default function EventsContainer(props) {
+export default function EventsContainer() {
+
+    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
+
     const [show, setShow] = useState(false);
-
-    let view = props.view;
-    let timestamp = props.timestamp;
+    const [myEvents, setMyEvents] = useState([]);
+    const [isLoading, setLoading] = useState(true);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    let events = [];
+
+
+    useEffect(() => {
+        console.log(`[EventsContainer/EventsContainer/useEffect]: re-rendering event container`);
+    }, [view, timestamp]);
+
+    const renderEventList = () => {
+        console.log(`[EventsContainer/EventsContainer/renderEventList]: rendering event list`);
+        return <EventList />;
+    }
 
     return (
         <div style={{'border':'5px solid red'}}>          
@@ -34,7 +47,7 @@ export default function EventsContainer(props) {
             </Container>
 
             <Container>
-                <EventList view={view} timestamp={timestamp}/>
+                {renderEventList()}
             </Container>
             
             <Modal show={show} onHide={handleClose}>
@@ -49,57 +62,41 @@ export default function EventsContainer(props) {
     );
 }
 
+function EventList() {
+    const [myEvents, setMyEvents] = useState([]);
+    const [isLoading, setLoading] = useState([]);
 
-
-function EventList(props) {
-    const [myEvents, setMyEvents] = useState({});
-    const [isLoading, setLoading] = useState(true);
-
-    let view = props.view;
-    let timestamp = props.timestamp;
-
-    let timestampDate = new Date(timestamp);
+    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
 
     useEffect(() => {
-        console.log(`EventsContainer: retrieving events for ${timestampDate}`);
+        console.log(`[EventsContainer/EventList/useEffect]: re-rendering event list`);
+        getListEvents();
+    }, [view, timestamp]);
+
+    const getListEvents = () => {
+        console.log(`[EventsContainer/EventList/getListEvents]: getListEvents called`);
         if (view === 'day') {
-            getDayEvents(timestamp);
-        }
+            (DataService.getPlannedDay(timestamp)).then((response) => {
+                setMyEvents(response.data);
+                setLoading(false);
+            });
+        } 
         if (view === 'week') {
-            getWeekEvents(timestamp);
-        }
+            (DataService.getPlannedWeek(timestamp)).then((response) => {
+                setMyEvents(response.data);
+                setLoading(false);
+            });
+        } 
         if (view === 'month') {
-            getMonthEvents(timestamp);
+            (DataService.getPlannedMonth(timestamp)).then((response) => {
+                setMyEvents(response.data);
+                setLoading(false);
+            });
         }
-    }, []);
-
-    const getDayEvents = (timestamp) => {
-        (DataService.getPlannedDay(timestamp)).then((response) => {
-            setMyEvents(response.data);
-            setLoading(false);
-            console.log(response.data);
-        });
     };
 
-    const getWeekEvents = (timestamp) => {
-        (DataService.getPlannedWeek(timestamp)).then((response) => {
-            setMyEvents(response.data);
-            setLoading(false);
-            console.log(response.data);
-        });
-    };
-
-    const getMonthEvents = (timestamp) => {
-        (DataService.getPlannedMonth(timestamp)).then((response) => {
-            setMyEvents(response.data);
-            setLoading(false);
-            console.log(response.data);
-        });
-    };
-
-        
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (<div>Loading...</div>);
     }
 
     if (myEvents.length === 0) {
@@ -110,11 +107,26 @@ function EventList(props) {
         );
     }
 
+    console.log(`[EventsContainer/EventList]: myEvents = ${JSON.stringify(myEvents)}`);
+
+    if (view === 'month') {
+        return (
+            <ul>
+                {myEvents.map(planned => (
+                    <li>
+                        <h5>{planned.planned_title}</h5>
+                        <h6>{planned.planned_description}</h6>
+                    </li>
+                ))}
+            </ul>
+        );
+    }
+
     return (
         <ul>
             {myEvents.map(planned => (
                 <OverlayTrigger
-                    trigger="hover"
+                    trigger="hover || focus"
                     key={planned.id}
                     placement="right"
                     overlay={

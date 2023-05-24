@@ -34,7 +34,7 @@ export default function NewToDoForm() {
         let currDate = new Date();
         let currTS = currDate.getTime();
 
-        console.log(`new todo form data = ${JSON.stringify(newToDoFormData)}`);
+        console.log(`[NewToDoForm/NewToDoForm/submitForm]: new todo form data = ${JSON.stringify(newToDoFormData)}`);
         newToDoFormData.planned_date = new Date();
         newToDoFormData.planned_time = "00:00";
         newToDoFormData.category_id = parseInt(newToDoFormData.category_id);
@@ -44,7 +44,7 @@ export default function NewToDoForm() {
        
 
         (DataService.createPlanned(newToDoFormData)).then((response) => {
-            console.log(response.data);
+            console.log(`[NewToDoForm/NewToDoForm/submitForm/DS.createPlanned]: ${response.data}`);
         });
 
     };
@@ -68,7 +68,7 @@ export default function NewToDoForm() {
                     controlId="category_id"
                     value={newToDoFormData.category_id} 
                     onChange={e => {
-                        console.log("e.target.value", e.target.value);
+                        console.log("selected category id:", e.target.value);
                         setNewToDoFormData({ ...newToDoFormData, category_id: e.target.value });
                     }}
                 >
@@ -95,7 +95,6 @@ function CategoryList() {
         (DataService.getAllCategories()).then((response) => {
             setMyCategories(response.data);
             setLoadingCat(false);
-            console.log(`categories: ${response.data}`);
         });
     };
 

@@ -119,9 +119,7 @@ Date.prototype.getDayName = function() {
 
 
 Date.prototype.getDayStart = function() {
-    console.log(`finding start of date: ${JSON.stringify(this)}`);
     let dayStart = new Date(this.getTimelessStamp());
-    console.log(`found day start: ${JSON.stringify(dayStart)}`);
     return dayStart;
 };
 

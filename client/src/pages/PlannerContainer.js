@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import DateBar from '../components/DateBar';
 import Date from '../utils/dateMethods';
@@ -9,29 +9,36 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
+import { usePlannerContext } from '../utils/PlannerContext';
+
 // top right bottom left
 
 
 export default function PlannerContainer(props) {
-    let view = props.view;
-    // let { timestamp } = useParams();
 
-    // if (!(timestamp > 0)) {
-    //     timestamp = (new Date()).getTime();
-    // }
-    let timestamp = (new Date()).getTime();
+    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
 
-    console.log(`planner container timestamp = ${timestamp}`);
+    changeView(props.propView);
+
+    const renderEventsContainer = () => {
+        console.log('[PlannerContainer/PlannerContainer/renderEventsContainer]: rendering events container');
+        return <EventsContainer />;
+    };
+
+    const renderToDoList = () => {
+        console.log('[PlannerContainer/PlannerContainer/renderToDoList]: rendering to do list');
+        return <ToDoList />
+    };
 
     return (
         <div style={{'backgroundColor':'white', 'border':'5px solid blue'}}>
-            <DateBar view={view} timestamp={timestamp} />
+            <DateBar />
             <Row>
                 <Col style={{'width':'50%', 'margin':'1%'}}>
-                    <EventsContainer view={view} timestamp={timestamp} />
+                    {renderEventsContainer()}
                 </Col>
                 <Col style={{'width':'30%', 'margin': '1%'}}>
-                    <ToDoList view={view} timestamp={timestamp} />
+                    {renderToDoList()}
                 </Col>
             </Row>
         </div>

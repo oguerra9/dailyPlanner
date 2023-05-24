@@ -18,7 +18,7 @@ function Settings() {
         (DataService.getAllSettings()).then((response) => {
             setMySettings(response.data);
             setLoading(false);
-            console.log(response.data);
+            console.log(`[Settings/Settings/getMySettings/DS.getAllSettings]: ${response.data}`);
         });
     };
         

@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PlannerContainer from "./pages/PlannerContainer";
 import NavBar from "./components/NavBar";
 import Settings from './pages/Settings';
-import { PlannerProvider } from './utils/PlannerContext';
+import { PlannerProvider, usePlannerContext } from './utils/PlannerContext';
 
 function App() {
+
     return (
         <Router>
             <div className="flex-column justify-center align-center min-100-vh bg-primary">

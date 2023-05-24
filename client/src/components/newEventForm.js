@@ -21,38 +21,35 @@ export default function NewEventForm() {
         }
     );
     const [date, setDate] = useState(new Date());   
-
-        
+       
     const handleChange = (event) => {
         const { name, value } = event.target;
         setNewEventFormData({ ...newEventFormData, [name]: value });
     };
 
     const submitForm = (event) => {
-        event.preventDefault();
-
         let currDate = new Date();
         let currTS = currDate.getTime();
 
-        console.log(`new event form data = ${JSON.stringify(newEventFormData)}`);
+        console.log(`[NewEventForm/NewEventForm/submitForm]: new event form data = ${JSON.stringify(newEventFormData)}`);
         let eventDate = new Date(newEventFormData.planned_date);
-        let objDate = new Date(`${eventDate.getMonthName()} ${eventDate.getDate()} ${eventDate.getFullYear()} ${newEventFormData.planned_time}`);
-        let objDateTS = objDate.getTime();
-        console.log(`obj date = ${objDate}`);
-        newEventFormData.planned_date = objDate;
-        console.log(`event date = ${JSON.stringify(eventDate)}`);
-        console.log(`event time = ${JSON.stringify(newEventFormData.planned_time)}`);
+        let eventDateTime = new Date(`${eventDate.getMonthName()} ${eventDate.getDate()} ${eventDate.getFullYear()} ${newEventFormData.planned_time}`);
+        let eventDateTimeTS = eventDateTime.getTime();
+        console.log(`[NewEventForm/NewEventForm/submitForm]: event date time = ${eventDateTime}`);
+        newEventFormData.planned_date = eventDateTime;
+        console.log(`[NewEventForm/NewEventForm/submitForm]: event date = ${JSON.stringify(eventDate)}`);
+        console.log(`[NewEventForm/NewEventForm/submitForm]: new event form data planned time = ${JSON.stringify(newEventFormData.planned_time)}`);
         newEventFormData.category_id = parseInt(newEventFormData.category_id);
         newEventFormData.planType_id = parseInt(newEventFormData.planType_id);
 
-        let eventHour = objDate.getHours();
+        let eventHour = eventDateTime.getHours();
         if (eventHour < 12) {
             newEventFormData.planned_am = true;
         } else {
             newEventFormData.planned_am = false;
         }
 
-        if (objDateTS < currTS) {
+        if (eventDateTimeTS < currTS) {
             newEventFormData.planned_active = false;
         } else {
             newEventFormData.planned_active = true;
@@ -60,7 +57,7 @@ export default function NewEventForm() {
         
 
         (DataService.createPlanned(newEventFormData)).then((response) => {
-            console.log(response.data);
+            console.log(`[NewEventForm/NewEventForm/submitForm/DS.createPlanned]: ${response.data}`);
         });
 
     };
@@ -113,7 +110,7 @@ export default function NewEventForm() {
                             controlId="category_id"
                             value={newEventFormData.category_id} 
                             onChange={e => {
-                                console.log("e.target.value", e.target.value);
+                                console.log("selected category id", e.target.value);
                                 setNewEventFormData({ ...newEventFormData, category_id: e.target.value });
                             }}
                         >
@@ -128,7 +125,7 @@ export default function NewEventForm() {
                             controlId="planType_id"
                             value={newEventFormData.planType_id} 
                             onChange={e => {
-                                console.log("e.target.value", e.target.value);
+                                console.log("selected plan type id:", e.target.value);
                                 setNewEventFormData({ ...newEventFormData, planType_id: e.target.value });
                             }}
                         >
@@ -157,7 +154,6 @@ function CategoryList() {
         (DataService.getAllCategories()).then((response) => {
             setMyCategories(response.data);
             setLoadingCat(false);
-            console.log(`categories: ${response.data}`);
         });
     };
 
@@ -192,7 +188,6 @@ function PlanTypeList() {
         (DataService.getAllPlanTypes()).then((response) => {
             setMyPlanTypes(response.data);
             setLoadingPT(false);
-            console.log(`plan types: ${response.data}`);
         });
     };
 

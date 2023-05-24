@@ -18,11 +18,17 @@ const { Op } = require('sequelize');
 router.get('/', async (req, res) => {
   // find all planned events
   // be sure to include its associated Category and PlanType data
+  console.log(`[GET /planned/]`);
   try {
     const plannedData = await Planned.findAll({
       include: [{ model: Category }, { model: PlanType }],
     });
+
     res.status(200).json(plannedData)
+
+    if (!plannedData) {
+      res.status(404).json({ message: 'No planned events could be found'})
+    }
   } catch (err) {
     res.status(500).json(err)
   }
@@ -30,6 +36,7 @@ router.get('/', async (req, res) => {
 
 // get one planned event
 router.get('/:id', async (req, res) => {
+  console.log(`[GET /planned/:id]`);
   // find a single planned event by its `id`
   // be sure to include its associated Category and PlanType data
   try {
@@ -67,12 +74,13 @@ router.get('/:id', async (req, res) => {
 
 router.get('/day/:timestamp', async (req, res) => {
   try {
+    console.log(`[GET /planned/day/:timestamp]`);
     let timeDate = new Date(parseInt(req.params.timestamp));
-    console.log(`timeDate = ${timeDate}`);
+    console.log(`\ttimeDate = ${timeDate}`);
     let dayStart = timeDate.getDayStart();
-    console.log(`day start = ${dayStart}`);
+    console.log(`\tday start = ${dayStart}`);
     let dayEnd = timeDate.getDayEnd();
-    console.log(`day end = ${dayEnd}`);
+    console.log(`\tday end = ${dayEnd}`);
     let rangeEvents = [];
     
     rangeEvents = await Planned.findAll({
@@ -84,7 +92,7 @@ router.get('/day/:timestamp', async (req, res) => {
       include: [{ model: Category }, { model: PlanType }]
     });
 
-    console.log(`range events searched`);
+    console.log(`\tday range events searched`);
 
     res.status(200).json(rangeEvents);
   } catch (err) {
@@ -93,19 +101,26 @@ router.get('/day/:timestamp', async (req, res) => {
 });
 
 router.get('/week/:timestamp', async (req, res) => {
+  console.log(`[GET /planned/week/:timestamp]`);
   try {
-    let timeDate = new Date(timestamp);
-    let weekStart = new Date(timeDate.getWeekStart());
-    let weekEnd = new Date(timeDate.getWeekEnd());
+    let timeDate = new Date(parseInt(req.params.timestamp));
+    console.log(`\ttimeDate = ${timeDate}`);
+    let weekStart = timeDate.getWeekStart();
+    console.log(`\tweek start = ${weekStart}`);
+    let weekEnd = timeDate.getWeekEnd();
+    console.log(`\tweek end = ${weekEnd}`);
     let rangeEvents = [];
+    
     rangeEvents = await Planned.findAll({
       where: {
-        date: {
+        planned_date: {
           [Op.between]: [weekStart, weekEnd],
          },
       },
       include: [{ model: Category }, { model: PlanType }]
     });
+
+    console.log(`\tweek range events searched`);
 
     res.status(200).json(rangeEvents);
   } catch (err) {
@@ -114,19 +129,26 @@ router.get('/week/:timestamp', async (req, res) => {
 });
 
 router.get('/month/:timestamp', async (req, res) => {
+  console.log(`[GET /planned/month/:timestamp]`);
   try {
-    let timeDate = new Date(timestamp);
-    let monthStart = new Date(timeDate.getMonthStart());
-    let monthEnd = new Date(timeDate.getMonthEnd());
+    let timeDate = new Date(parseInt(req.params.timestamp));
+    console.log(`\ttimeDate = ${timeDate}`);
+    let monthStart = timeDate.getMonthStart();
+    console.log(`\tmonth start = ${monthStart}`);
+    let monthEnd = timeDate.getMonthEnd();
+    console.log(`\tmonth end = ${monthEnd}`);
     let rangeEvents = [];
+    
     rangeEvents = await Planned.findAll({
       where: {
-        date: {
+        planned_date: {
           [Op.between]: [monthStart, monthEnd],
          },
       },
       include: [{ model: Category }, { model: PlanType }]
     });
+
+    console.log(`\tmonth range events searched`);
 
     res.status(200).json(rangeEvents);
   } catch (err) {
@@ -136,6 +158,7 @@ router.get('/month/:timestamp', async (req, res) => {
 
 // create new planned event
 router.post('/', (req, res) => {
+  console.log(`[POST /planned/]`);
   /* req.body should look like this...
     {
       planned_date: DATE,
@@ -160,6 +183,7 @@ router.post('/', (req, res) => {
 
 // update planned event
 router.put('/:id', (req, res) => {
+  console.log(`[PUT /planned/:id]`);
   // update planned event data
   Planned.update(req.body, {
     where: {
@@ -170,13 +194,14 @@ router.put('/:id', (req, res) => {
         res.status(200).json(planned);
     })
     .catch((err) => {
-      // console.log(err);
+      console.log(err);
       res.status(400).json(err);
     });
 });
 
 router.delete('/:id', async (req, res) => {
   // delete one planned event by its `id` value
+  console.log(`[DELETE /planned/:id]`);
   try {
     const plannedData = await Planned.destroy({
       where: {
