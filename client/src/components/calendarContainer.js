@@ -12,24 +12,30 @@ import DataService from '../services/dataService';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import DayBoxList from './DayBoxList';
+import Card from 'react-bootstrap/Card';
 
 
 export default function CalendarContainer() {
     const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
 
     const [dates, setDates] = useState([]);
+    const [months, setMonths] = useState([]);
 
     let dateArr = [];
+    let monthArr = [];
     let dateEventsArr = [];
+
+    let dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     useEffect(() => {
         getDateArr();
         setDates(dateArr);
+        setMonths(monthArr);
         //getDaysEvents();
     }, [view, timestamp]);
 
     const getDateArr = () => {
-        
+
         if (view === 'week') {
             dateArr = new Array(7);
             let dayDate = TSDate.getWeekStart();
@@ -39,79 +45,80 @@ export default function CalendarContainer() {
             }
         }
         if (view === 'month') {
-            let monthDays = TSDate.getDaysInMonth();
-            dateArr = new Array(monthDays);
+            dateArr = new Array();
             let dayDate = TSDate.getMonthStart();
-            for (let i = 0; i < monthDays; i++) {
-                dateArr[i] = dayDate;
+            console.log(`month start = ${dayDate}`);
+            let dayNum = dayDate.getDay();
+            let numDays = dayNum + dayDate.getDaysInMonth();
+            console.log(`num days = ${numDays}`);
+            dateArr.push(dayDate.getWeekStart());
+            dayDate = dayDate.getWeekStart();
+            console.log(`grid start = ${dayDate}`);
+
+            for (let i = 1; i < numDays; i++) {
+                dateArr.push(dayDate);
                 dayDate = new Date(dayDate.nextDay());
             }
+            console.log(`month end = ${dayDate}`);
+
+            while (dayDate.getDay() != 6) {
+                dateArr.push(dayDate);
+                dayDate = new Date(dayDate.nextDay());
+            }
+
+            console.log(`*** dateArr after loop: ***`);
+            console.log(dateArr);
+
+            
+            monthArr = [];
+            let index = 0;
+
+            while (index < dateArr.length) {
+                let weekArr = new Array();
+
+                let weekIndex = 0;
+                while (weekIndex < 7) {
+                    weekArr.push(dateArr[index]);
+                    index += 1;
+                    weekIndex += 1;
+                }
+                console.log(`week dates = ${weekArr}`);
+
+                monthArr.push(weekArr);
+                console.log(`month array dates = ${monthArr}`);
+            }
+
+            console.log(`finished month array = ${JSON.stringify(monthArr)}`);
+
+
         }
 
         console.log(`[CalendarContainer/CalendarContainer/getDateArr]: dateArr = ${dateArr}`);
-    };
-
-    const getDaysEvents = () => {
-        dateEventsArr = new Array(dateArr.length);
-        for (let i = 0; i < dateEventsArr.length; i++) {
-            dateEventsArr[i] = getListEvents(dateArr[i]);
-        }
-        console.log(`daysEvents = ${dateEventsArr}`);
-    };
-
-    const getListEvents = (dateBox) => {
-        console.log(`[EventsContainer/EventList/getListEvents]: getListEvents called for date = ${dateBox}`);
-        let boxTS = dateBox.getTime();
-        let boxEvents = [];
-        let loading = true;
-        (DataService.getPlannedDay(boxTS)).then((response) => {
-            //setMyEvents(response.data);
-            boxEvents = response.data;
-            loading = false;
-        });
-        console.log(`box events = ${boxEvents}`);
-
-        if (loading === false) {
-            
-            return boxEvents;
-        }
-
-    };
-
-    const renderDayBox = (dayDate) => {
-        console.log(`date arr = ${dateArr}`);
-        console.log(`rendering day box for ${dayDate}`);
-        let eventsArr = getListEvents(dayDate);
-
-        let dayString = '';
-
-        if (view === 'week') {
-            dayString = dayDate.getDayName();
-        }
-
-        if (view === 'month') {
-            dayString = `${dayDate.getDisplayMonth()}/${dayDate.getDate()}`;
-        }
-
-        return (
-            <Container style={{'border':'1px solid black'}}>
-                <DayBoxList dayDate={dayDate} />
-            </Container>
-        );
     };
 
     console.log(`[CalendarContainer/CalendarContainer]: dates = ${dates}`);
 
     return (
         <div style={{'border':'1px solid green', 'padding': '5px', 'margin': '5px'}}>
-            <ul>
-                {dates.map(day => (
-                    <li key={day.getTimelessStamp()}>
-                        {day.getDate()}
-                        <DayBoxList dayDate={day} />
-                    </li>
-                ))}
-            </ul>
+            <Container>
+                <Row className="justify-content-md-center">
+                    {dayNames.map(name => (
+                        <Col style={{'margin': 0, 'padding': 0, 'width': '14%'}} className='col-lg-2'>{name}</Col>
+                    ))}
+                </Row>
+                <Row className="justify-content-md-center">
+                    {dates.map(day => (
+                        <Col style={{'margin': 0, 'padding': 0, 'width': '14%'}} className='col-lg-2'>
+                            <Card key={day.getTimelessStamp()}>
+                                <Card.Header>{day.getDate()}</Card.Header>
+                                <Card.Body>
+                                    <DayBoxList dayDate={day} />
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
         </div>
     );
 

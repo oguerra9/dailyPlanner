@@ -70,8 +70,8 @@ export default function PlannerContainer(props) {
         <div style={{'backgroundColor':'white', 'border':'5px solid blue'}}>
             <DateBar />
             <Row>
-                <Col>{renderEventsContainer()}</Col>
-                <Col>{renderToDoList()}</Col>
+                {/* <Col>{renderEventsContainer()}</Col>
+                <Col>{renderToDoList()}</Col> */}
                 <Col>{renderCalendarContainer()}</Col>
             </Row>
         </div>
