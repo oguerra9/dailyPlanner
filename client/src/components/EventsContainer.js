@@ -21,8 +21,6 @@ export default function EventsContainer() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    let events = [];
-
 
     useEffect(() => {
         console.log(`[EventsContainer/EventsContainer/useEffect]: re-rendering event container`);
@@ -126,7 +124,7 @@ function EventList() {
         <ul>
             {myEvents.map(planned => (
                 <OverlayTrigger
-                    trigger="hover || focus"
+                    trigger="hover"
                     key={planned.id}
                     placement="right"
                     overlay={

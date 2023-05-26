@@ -13,6 +13,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import DayBoxList from './DayBoxList';
 import Card from 'react-bootstrap/Card';
+import '../index.css';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
 
 export default function CalendarContainer() {
@@ -21,9 +23,19 @@ export default function CalendarContainer() {
     const [dates, setDates] = useState([]);
     const [months, setMonths] = useState([]);
 
+    const [canvasDate, setCanvasDate] = useState(TSDate);
+
+    const [showCanvas, setShowCanvas] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleCloseCanvas = () => setShowCanvas(false);
+    const handleShowCanvas = (dayDate) => setShowCanvas(true);
+    
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
+
     let dateArr = [];
     let monthArr = [];
-    let dateEventsArr = [];
 
     let dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -47,28 +59,20 @@ export default function CalendarContainer() {
         if (view === 'month') {
             dateArr = new Array();
             let dayDate = TSDate.getMonthStart();
-            console.log(`month start = ${dayDate}`);
             let dayNum = dayDate.getDay();
             let numDays = dayNum + dayDate.getDaysInMonth();
-            console.log(`num days = ${numDays}`);
             dateArr.push(dayDate.getWeekStart());
             dayDate = dayDate.getWeekStart();
-            console.log(`grid start = ${dayDate}`);
 
             for (let i = 1; i < numDays; i++) {
                 dateArr.push(dayDate);
                 dayDate = new Date(dayDate.nextDay());
             }
-            console.log(`month end = ${dayDate}`);
 
             while (dayDate.getDay() != 6) {
                 dateArr.push(dayDate);
                 dayDate = new Date(dayDate.nextDay());
             }
-
-            console.log(`*** dateArr after loop: ***`);
-            console.log(dateArr);
-
             
             monthArr = [];
             let index = 0;
@@ -82,43 +86,63 @@ export default function CalendarContainer() {
                     index += 1;
                     weekIndex += 1;
                 }
-                console.log(`week dates = ${weekArr}`);
-
                 monthArr.push(weekArr);
-                console.log(`month array dates = ${monthArr}`);
             }
-
-            console.log(`finished month array = ${JSON.stringify(monthArr)}`);
-
-
         }
-
-        console.log(`[CalendarContainer/CalendarContainer/getDateArr]: dateArr = ${dateArr}`);
     };
-
-    console.log(`[CalendarContainer/CalendarContainer]: dates = ${dates}`);
 
     return (
         <div style={{'border':'1px solid green', 'padding': '5px', 'margin': '5px'}}>
             <Container>
                 <Row className="justify-content-md-center">
                     {dayNames.map(name => (
-                        <Col style={{'margin': 0, 'padding': 0, 'width': '14%'}} className='col-lg-2'>{name}</Col>
+                        <Col id='WeekDayTitles' className='col-lg-2'>
+                            {name}
+                        </Col>
                     ))}
                 </Row>
                 <Row className="justify-content-md-center">
                     {dates.map(day => (
-                        <Col style={{'margin': 0, 'padding': 0, 'width': '14%'}} className='col-lg-2'>
-                            <Card key={day.getTimelessStamp()}>
-                                <Card.Header>{day.getDate()}</Card.Header>
-                                <Card.Body>
-                                    <DayBoxList dayDate={day} />
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    ))}
+                            <Col style={{'margin': 0, 'padding': 0, 'width': '14%'}} className='col-lg-2'>
+                                <Card 
+                                    key={day.getTimelessStamp()} 
+                                    style={{'border-radius':0, 'height': '120px'}} 
+                                    onClick={() => {
+                                        console.log(`clicked ${new Date(day)}`);
+                                        setCanvasDate(new Date(day));
+                                        handleShowCanvas();
+                                    }}
+                                >
+                                    <Card.Header style={{'margin': 0, 'padding': '2px'}}>{day.getDate()}</Card.Header>
+                                    <Card.Body style={{'padding': '2px'}}>
+                                        <DayBoxList dayDate={day} detailedView={false} />
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))}
                 </Row>
             </Container>
+
+            <Offcanvas show={showCanvas} onHide={handleCloseCanvas} {...canvasDate}>
+                <Offcanvas.Header closeButton>
+                    <Offcanvas.Title>
+                        Offcanvas
+                        <Button onClick={handleShowModal}>{'+'}</Button>
+                    </Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    <DayBoxList dayDate={canvasDate} detailedView={true} />
+                </Offcanvas.Body>
+            </Offcanvas>
+
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>New Event</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <NewEventForm />
+                </Modal.Body>
+            </Modal>
         </div>
     );
 

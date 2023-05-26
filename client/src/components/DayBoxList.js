@@ -2,11 +2,19 @@ import React, { useEffect, useState, useContext } from 'react';
 import Date from '../utils/dateMethods';
 import DataService from '../services/dataService';
 import { usePlannerContext } from '../utils/PlannerContext';
+import Popover from 'react-bootstrap/Popover';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
+import '../index.css';
 
 export default function DayBoxList(props) {
     const [myEvents, setMyEvents] = useState([]);
     const [isLoading, setLoading] = useState([]);
+
+    let detailedView = props.detailedView;
 
     let dayDate = props.dayDate;
     let dayTS = dayDate.getTime();
@@ -26,70 +34,78 @@ export default function DayBoxList(props) {
         });
     };
 
-    if (isLoading) {
-        return (<div>Loading...</div>);
+    const getDayString = () => {
+        return `${dayDate.getDayName()} - ${dayDate.getDisplayMonth()}/${dayDate.getDate()}`;
     }
 
-    if (myEvents.length === 0) {
+    if (isLoading) {
         return (
-            <ul>
-                <li>---</li>
-            </ul>
-        );
+            <div>
+                <p id="MonthEvent">Loading...</p>
+            </div>);
     }
 
     console.log(`[DayBoxList/DayBoxList]: events for ${dayDate} = ${JSON.stringify(myEvents)}`);
 
-    // if (view === 'month') {
-    //     return (
-    //         <ul>
-    //             {myEvents.map(planned => (
-    //                 <li key={planned.id}>
-    //                     <h5>{planned.planned_title}</h5>
-    //                     <h6>{planned.planned_description}</h6>
-    //                 </li>
-    //             ))}
-    //         </ul>
-    //     );
-    // }
+    if (detailedView === true) {
+        if (myEvents.length === 0) {
+            return (
+                <Container>
+                    <h1>{getDayString()}</h1>
+                    <ul>
+                        <li>---</li>
+                    </ul>
+                </Container>
+            );
+        }
+        return (
+            <Container>
+                <h1>{getDayString()}</h1>
+                <ul>
+                    {myEvents.map(planned => (
+                        <OverlayTrigger
+                            trigger="hover"
+                            key={planned.id}
+                            placement="right"
+                            overlay={
+                                <Popover id={`plannedPopover${planned.id}`}>
+                                    <Popover.Header as="h3">{planned.planned_title}</Popover.Header>
+                                    <Popover.Body style={{'margin':'0px 10px 0px 10px'}}>
+                                        <Col>
+                                            <Row>{planned.planned_description}</Row>
+                                            <Row>Category: {planned.category.category_name}</Row>
+                                            <Row>Plan Type: {planned.planType.planType_name}</Row>
+                                        </Col>
+                                    </Popover.Body>
+                                </Popover>
+                            }
+                            >
+                                <li key={planned.id} className={planned.category.category_name} id={planned.planType.planType_name}>
+                                    <h5>{planned.planned_title}</h5>
+                                    <h6>{planned.planned_description}</h6>
+                                </li>
+                        </OverlayTrigger>
+                    ))}
+                </ul>
+            </Container>
+        );
+    }
 
-    // return (
-    //     <ul>
-    //         {myEvents.map(planned => (
-    //             <OverlayTrigger
-    //                 trigger="hover || focus"
-    //                 key={planned.id}
-    //                 placement="right"
-    //                 overlay={
-    //                     <Popover id={`plannedPopover${planned.id}`}>
-    //                         <Popover.Header as="h3">{planned.planned_title}</Popover.Header>
-    //                         <Popover.Body style={{'margin':'0px 10px 0px 10px'}}>
-    //                             <Col>
-    //                                 <Row>{planned.planned_description}</Row>
-    //                                 <Row>Category: {planned.category.category_name}</Row>
-    //                                 <Row>Plan Type: {planned.planType.planType_name}</Row>
-    //                             </Col>
-    //                         </Popover.Body>
-    //                     </Popover>
-    //                 }
-    //                 >
-    //                     <li key={planned.id} className={planned.category.category_name} id={planned.planType.planType_name}>
-    //                         <h5>{planned.planned_title}</h5>
-    //                         <h6>{planned.planned_description}</h6>
-    //                     </li>
-    //             </OverlayTrigger>
-    //         ))}
-    //     </ul>
-    // );
+    if (myEvents.length === 0) {
+        return (
+            <div>
+                <p id="MonthEvent" >---</p>
+            </div>
+        );
+    }
 
     return (
-        <ul>
+        <>
             {myEvents.map(planned => (
-                <li key={planned.id}>
-                    <h5>{planned.planned_title}</h5>
-                    <h6>{planned.planned_description}</h6>
-                </li>
+                <div key={planned.id}>
+                    <p id='MonthEvent'>- {planned.planned_title}</p>
+                </div>
             ))}
-        </ul>
+        </>
     );
 }
