@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import CalendarContainer from '../components/CalendarContainer';
 
 import { usePlannerContext } from '../utils/PlannerContext';
 
@@ -22,7 +23,7 @@ export default function PlannerContainer(props) {
 
     const renderEventsContainer = () => {
         console.log('[PlannerContainer/PlannerContainer/renderEventsContainer]: rendering events container');
-        return <EventsContainer />;
+        return <EventsContainer pageTimestamp={timestamp} />;
     };
 
     const renderToDoList = () => {
@@ -30,18 +31,51 @@ export default function PlannerContainer(props) {
         return <ToDoList />
     };
 
+    const renderCalendarContainer = () => {
+        console.log('[PlannerContainer/PlannerContainer/renderCalendarContainer]: rendering calendar');
+        return <CalendarContainer />
+    };
+
+    // const renderTimeView = () => {
+    //     if (view === 'day') {
+    //         return (
+    //             <Row>
+    //                 <Col style={{'width':'50%', 'margin':'1%'}}>
+    //                     {renderEventsContainer()}
+    //                 </Col>
+    //                 <Col style={{'width':'30%', 'margin': '1%'}}>
+    //                     {renderToDoList()}
+    //                 </Col>
+    //             </Row>
+    //         );
+    //     }
+    //     else {
+    //         return (
+    //             <Row>
+    //                 <Col>{renderCalendarContainer()}</Col>
+    //             </Row>
+    //         );
+    //     }
+    // };
+
+
+    // return (
+    //     <div style={{'backgroundColor':'white', 'border':'5px solid blue'}}>
+    //         <DateBar />
+    //         <Container>{renderTimeView()}</Container>
+    //     </div>
+    // );
+
     return (
         <div style={{'backgroundColor':'white', 'border':'5px solid blue'}}>
             <DateBar />
             <Row>
-                <Col style={{'width':'50%', 'margin':'1%'}}>
-                    {renderEventsContainer()}
-                </Col>
-                <Col style={{'width':'30%', 'margin': '1%'}}>
-                    {renderToDoList()}
-                </Col>
+                <Col>{renderEventsContainer()}</Col>
+                <Col>{renderToDoList()}</Col>
+                <Col>{renderCalendarContainer()}</Col>
             </Row>
         </div>
     );
+
 
 }

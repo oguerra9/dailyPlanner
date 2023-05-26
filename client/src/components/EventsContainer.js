@@ -113,7 +113,7 @@ function EventList() {
         return (
             <ul>
                 {myEvents.map(planned => (
-                    <li>
+                    <li key={planned.id}>
                         <h5>{planned.planned_title}</h5>
                         <h6>{planned.planned_description}</h6>
                     </li>
