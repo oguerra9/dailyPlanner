@@ -17,6 +17,8 @@ export default function DayBoxList(props) {
     const [myEvents, setMyEvents] = useState([]);
     const [isLoading, setLoading] = useState([]);
 
+    const { view } = usePlannerContext();
+
     let detailedView = props.detailedView;
 
     let dayDate = props.dayDate;
@@ -113,7 +115,7 @@ export default function DayBoxList(props) {
     if (myEvents.length === 0) {
         return (
             <div>
-                <p id="MonthEvent" >---</p>
+                <p id={`${view}Event`}></p>
             </div>
         );
     }
@@ -122,7 +124,7 @@ export default function DayBoxList(props) {
         <>
             {myEvents.map(planned => (
                 <div key={planned.id}>
-                    <p id='MonthEvent'>- {planned.planned_title}</p>
+                    <p id={`${view}Event`}>- {planned.planned_title}</p>
                 </div>
             ))}
         </>

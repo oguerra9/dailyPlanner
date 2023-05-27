@@ -11,7 +11,6 @@ import Card from 'react-bootstrap/Card';
 import '../index.css';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-
 export default function CalendarContainer() {
     const { view, timestamp, TSDate } = usePlannerContext();
 
@@ -43,12 +42,15 @@ export default function CalendarContainer() {
     const getDateArr = () => {
 
         if (view === 'week') {
-            dateArr = new Array(7);
-            let dayDate = TSDate.getWeekStart();
-            for (let i = 0; i < 7; i++) {
-                dateArr[i] = dayDate;
-                dayDate = new Date(dayDate.nextDay());
+            dateArr = new Array();
+            dateArr.push(TSDate.getWeekStart());
+            let dayDate = new Date(TSDate.getWeekStart());
+            console.log(`first day of week = ${dayDate}`);
+            for (let i = 0; i < 6; i++) {
+                dateArr.push(dayDate);
+                dayDate = new Date(dayDate.nextDay());   
             }
+            console.log(`week array = ${dateArr}`);
         }
         if (view === 'month') {
             dateArr = new Array();
@@ -85,35 +87,45 @@ export default function CalendarContainer() {
         }
     };
 
+    const getCardHeader = (day) => {
+        if (view === 'month') {
+            return day.getDate();
+        }
+
+        return (`${day.getDayName()} - ${day.getDisplayMonth()}/${day.getDate()}`);
+    };
+
     return (
         <div style={{'border':'1px solid green', 'padding': '5px', 'margin': '5px'}}>
             <Container>
-                <Row className="justify-content-md-center">
-                    {dayNames.map(name => (
-                        <Col id='WeekDayTitles' className='col-lg-2'>
-                            {name}
-                        </Col>
-                    ))}
-                </Row>
-                <Row className="justify-content-md-center">
-                    {dates.map(day => (
-                            <Col style={{'margin': 0, 'padding': 0, 'width': '14%'}} className='col-lg-2'>
-                                <Card 
-                                    key={day.getTimelessStamp()} 
-                                    style={{'border-radius':0, 'height': '120px'}} 
-                                    onClick={() => {
-                                        console.log(`clicked ${new Date(day)}`);
-                                        setCanvasDate(new Date(day));
-                                        handleShowCanvas();
-                                    }}
-                                >
-                                    <Card.Header style={{'margin': 0, 'padding': '2px'}}>{day.getDate()}</Card.Header>
-                                    <Card.Body style={{'padding': '2px'}}>
-                                        <DayBoxList dayDate={day} detailedView={false} />
-                                    </Card.Body>
-                                </Card>
+                {(view === 'month') ? (
+                    <Row className="justify-content-md-center">
+                        {dayNames.map(name => (
+                            <Col id='WeekDayTitles' className='col-lg-2'>
+                                {name}
                             </Col>
                         ))}
+                    </Row>
+                ) : (<></>)}
+                <Row className="justify-content-md-center">
+                    {dates.map(day => (
+                        <Col style={{'margin': 0, 'padding': 0, 'width': '14%'}} className='col-lg-2'>
+                            <Card 
+                                key={day.getTimelessStamp()} 
+                                id={`${view}Card`}
+                                onClick={() => {
+                                    console.log(`clicked ${new Date(day)}`);
+                                    setCanvasDate(new Date(day));
+                                    handleShowCanvas();
+                                }}
+                            >
+                                <Card.Header style={{'margin': 0, 'padding': '2px'}}>{getCardHeader(day)}</Card.Header>
+                                <Card.Body style={{'padding': '2px'}}>
+                                    <DayBoxList dayDate={day} detailedView={false} />
+                                </Card.Body>
+                            </Card>                                   
+                        </Col>
+                    ))}
                 </Row>
             </Container>
 
