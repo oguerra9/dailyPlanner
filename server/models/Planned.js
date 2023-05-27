@@ -35,6 +35,7 @@ Planned.init(
     },
     category_id: {
         type: DataTypes.INTEGER,
+        defaultValue: 4,
         references: {
             model: 'category',
             key: 'id'
@@ -42,6 +43,7 @@ Planned.init(
     },
     planType_id: {
         type: DataTypes.INTEGER,
+        defaultValue: 4,
         references: {
             model: 'planType',
             key: 'id'

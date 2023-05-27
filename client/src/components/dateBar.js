@@ -1,5 +1,4 @@
-import { React, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { React, useState } from 'react';
 import Date from '../utils/dateMethods';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -7,24 +6,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import '../index.css';
 import { usePlannerContext } from '../utils/PlannerContext';
-import DataService from '../services/dataService';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
-import ToDoList from './ToDoList';
 
+// section to display currently displayed date/range and increment/decrement time
 export default function DateBar() {
 
-    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
+    const { view, timestamp, changeTSDate } = usePlannerContext();
     
-    const [myEvents, setMyEvents] = useState([]);
-
-    const [isLoading, setLoading] = useState(false);
-
     const [pageDate, setPageDate] = useState(new Date(timestamp));
-
-    const [isPopulated, setPopulated] = useState(false);
-
-    console.log(`[DateBar: DateBar:] view: ${view} time: ${new Date(timestamp)}`);
 
     const handleIncrement = () => {
         if (view === 'day') {
@@ -67,13 +55,13 @@ export default function DateBar() {
 
     return (
         <Container>
-            <Row>
-                <Col md="auto">
-                    <Button onClick={handleDecrement}>{'<'}</Button>
+            <Row className="justify-content-md-center">
+                <Col md="auto" >
+                    <Button style={{'margin': '10px 0px 10px 0px'}} onClick={handleDecrement}>{'<'}</Button>
                 </Col>
-                <Col><h1>{dateString}</h1></Col>
+                <Col className="col-lg-4 justify-content-md-center"><h1 style={{'text-align': 'center', 'margin': '10px 0px 10px 0px'}}>{dateString}</h1></Col>
                 <Col md="auto">
-                    <Button onClick={handleIncrement}>{'>'}</Button>
+                    <Button style={{'margin': '10px 0px 10px 0px'}} onClick={handleIncrement}>{'>'}</Button>
                 </Col>
             </Row>
         </Container>

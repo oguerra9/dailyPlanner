@@ -27,9 +27,15 @@ const PlannerProvider = ({ children })  => {
         setTSDate(date);
     };
 
+    const [boxDate, setBoxDate] = useState(new Date());
+
+    const changeBoxDate = (date) => {
+        setBoxDate(date);
+    };
+
     return (
         <PlannerContext.Provider
-            value={{ view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate }}
+            value={{ view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate, boxDate, changeBoxDate }}
         >
             {/* We render children in our component so that any descendent can access the value from the provider */}
             {children}

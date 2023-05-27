@@ -76,11 +76,12 @@ router.get('/day/:timestamp', async (req, res) => {
   try {
     console.log(`[GET /planned/day/:timestamp]`);
     let timeDate = new Date(parseInt(req.params.timestamp));
-    console.log(`\ttimeDate = ${timeDate}`);
     let dayStart = timeDate.getDayStart();
-    console.log(`\tday start = ${dayStart}`);
+    dayStart.setHours(dayStart.getHours() - 4);
+    console.log(`day start = ${dayStart}`);
     let dayEnd = timeDate.getDayEnd();
-    console.log(`\tday end = ${dayEnd}`);
+    dayEnd.setHours(dayEnd.getHours() - 4);
+    console.log(`day end = ${dayEnd}`);
     let rangeEvents = [];
     
     rangeEvents = await Planned.findAll({

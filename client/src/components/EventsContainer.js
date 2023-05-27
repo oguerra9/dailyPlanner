@@ -13,16 +13,12 @@ import { usePlannerContext } from '../utils/PlannerContext';
 
 export default function EventsContainer() {
 
-    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
+    const { view, timestamp } = usePlannerContext();
 
     const [show, setShow] = useState(false);
-    const [myEvents, setMyEvents] = useState([]);
-    const [isLoading, setLoading] = useState(true);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    let events = [];
-
 
     useEffect(() => {
         console.log(`[EventsContainer/EventsContainer/useEffect]: re-rendering event container`);
@@ -34,7 +30,7 @@ export default function EventsContainer() {
     }
 
     return (
-        <div style={{'border':'5px solid red'}}>          
+        <div style={{'border':'1px solid red'}}>          
             <Container>
                 <Row style={{'backgroundColor':'gray'}}>
                     <Col>
@@ -66,7 +62,7 @@ function EventList() {
     const [myEvents, setMyEvents] = useState([]);
     const [isLoading, setLoading] = useState([]);
 
-    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
+    const { view, timestamp } = usePlannerContext();
 
     useEffect(() => {
         console.log(`[EventsContainer/EventList/useEffect]: re-rendering event list`);
@@ -113,7 +109,7 @@ function EventList() {
         return (
             <ul>
                 {myEvents.map(planned => (
-                    <li>
+                    <li key={planned.id}>
                         <h5>{planned.planned_title}</h5>
                         <h6>{planned.planned_description}</h6>
                     </li>
@@ -126,7 +122,7 @@ function EventList() {
         <ul>
             {myEvents.map(planned => (
                 <OverlayTrigger
-                    trigger="hover || focus"
+                    trigger="hover"
                     key={planned.id}
                     placement="right"
                     overlay={

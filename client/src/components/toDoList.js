@@ -9,14 +9,14 @@ import DataService from '../services/dataService';
 import Popover from 'react-bootstrap/Popover';
 import Modal from 'react-bootstrap/Modal';
 
-export default function ToDoList(props) {
+export default function ToDoList() {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     return (
-        <div style={{'border':'5px solid red'}}>           
+        <div style={{'border':'1px solid red'}}>           
                 <Container>
                     <Row style={{'backgroundColor':'gray'}}>
                         <Col>
