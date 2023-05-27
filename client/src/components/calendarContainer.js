@@ -14,17 +14,22 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 export default function CalendarContainer() {
     const { view, timestamp, TSDate } = usePlannerContext();
 
+    // states to store arrays of date objects to be displayed
     const [dates, setDates] = useState([]);
     const [months, setMonths] = useState([]);
 
+    // date to be displayed on off canvas
     const [canvasDate, setCanvasDate] = useState(TSDate);
 
+    // states to show/hide off-canvas display and new event form modal
     const [showCanvas, setShowCanvas] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
+    // functions to show or hide off-canvas display
     const handleCloseCanvas = () => setShowCanvas(false);
     const handleShowCanvas = () => setShowCanvas(true);
     
+    // functions to show or hide new event form modal
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
 
@@ -75,7 +80,6 @@ export default function CalendarContainer() {
 
             while (index < dateArr.length) {
                 let weekArr = new Array();
-
                 let weekIndex = 0;
                 while (weekIndex < 7) {
                     weekArr.push(dateArr[index]);
@@ -91,7 +95,6 @@ export default function CalendarContainer() {
         if (view === 'month') {
             return day.getDate();
         }
-
         return (`${day.getDayName()} - ${day.getDisplayMonth()}/${day.getDate()}`);
     };
 

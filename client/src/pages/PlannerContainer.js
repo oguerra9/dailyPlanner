@@ -64,13 +64,19 @@ export default function PlannerContainer(props) {
     // );
 
     return (
-        <div style={{'backgroundColor':'white', 'border':'5px solid blue'}}>
+        <div style={{'backgroundColor':'white', 'border':'1px solid blue'}}>
             <DateBar />
-            <Row>
-                {/* <Col>{renderEventsContainer()}</Col>
-                <Col>{renderToDoList()}</Col> */}
-                <Col>{renderCalendarContainer()}</Col>
-            </Row>
+            {(view === 'day') ? (
+                <Row className="justify-content-md-center">
+                    <Col className="col-lg-6">{renderEventsContainer()}</Col>
+                    <Col className="col-lg-3">{renderToDoList()}</Col>
+                </Row>
+            ) : (
+                <Row>
+                    <Col>{renderCalendarContainer()}</Col>
+                </Row>
+            )}
+            
         </div>
     );
 

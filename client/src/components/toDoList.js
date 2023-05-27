@@ -16,7 +16,7 @@ export default function ToDoList() {
     const handleShow = () => setShow(true);
 
     return (
-        <div style={{'border':'5px solid red'}}>           
+        <div style={{'border':'1px solid red'}}>           
                 <Container>
                     <Row style={{'backgroundColor':'gray'}}>
                         <Col>

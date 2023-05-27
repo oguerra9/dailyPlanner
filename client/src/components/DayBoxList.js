@@ -10,7 +10,6 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import NewEventForm from './NewEventForm';
-
 import '../index.css';
 
 export default function DayBoxList(props) {
@@ -45,19 +44,12 @@ export default function DayBoxList(props) {
     }
 
     if (isLoading) {
-        return (
-            <div>
-                <p id="MonthEvent">Loading...</p>
-            </div>);
+        return (<div></div>);
     }
 
     const renderDetailedEvents = () => {
         if (myEvents.length === 0) {
-            return (
-                <ul>
-                    <li>---</li>
-                </ul>
-            );
+            return (<div></div>);
         }
         return (
             <ul>

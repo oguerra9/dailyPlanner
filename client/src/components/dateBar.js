@@ -7,10 +7,10 @@ import Col from 'react-bootstrap/Col';
 import '../index.css';
 import { usePlannerContext } from '../utils/PlannerContext';
 
-
+// section to display currently displayed date/range and increment/decrement time
 export default function DateBar() {
 
-    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
+    const { view, timestamp, changeTSDate } = usePlannerContext();
     
     const [pageDate, setPageDate] = useState(new Date(timestamp));
 
@@ -55,13 +55,13 @@ export default function DateBar() {
 
     return (
         <Container>
-            <Row>
-                <Col md="auto">
-                    <Button onClick={handleDecrement}>{'<'}</Button>
+            <Row className="justify-content-md-center">
+                <Col md="auto" >
+                    <Button style={{'margin': '10px 0px 10px 0px'}} onClick={handleDecrement}>{'<'}</Button>
                 </Col>
-                <Col><h1>{dateString}</h1></Col>
+                <Col className="col-lg-4 justify-content-md-center"><h1 style={{'text-align': 'center', 'margin': '10px 0px 10px 0px'}}>{dateString}</h1></Col>
                 <Col md="auto">
-                    <Button onClick={handleIncrement}>{'>'}</Button>
+                    <Button style={{'margin': '10px 0px 10px 0px'}} onClick={handleIncrement}>{'>'}</Button>
                 </Col>
             </Row>
         </Container>

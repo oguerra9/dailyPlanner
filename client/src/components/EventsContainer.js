@@ -30,7 +30,7 @@ export default function EventsContainer() {
     }
 
     return (
-        <div style={{'border':'5px solid red'}}>          
+        <div style={{'border':'1px solid red'}}>          
             <Container>
                 <Row style={{'backgroundColor':'gray'}}>
                     <Col>
