@@ -59,7 +59,7 @@ export default function DateBar() {
                 <Col md="auto" >
                     <Button style={{'margin': '10px 0px 10px 0px'}} onClick={handleDecrement}>{'<'}</Button>
                 </Col>
-                <Col className="col-lg-4 justify-content-md-center"><h1 style={{'text-align': 'center', 'margin': '10px 0px 10px 0px'}}>{dateString}</h1></Col>
+                <Col className="col-lg-4 justify-content-md-center"><h1 style={{'textAlign': 'center', 'margin': '10px 0px 10px 0px'}}>{dateString}</h1></Col>
                 <Col md="auto">
                     <Button style={{'margin': '10px 0px 10px 0px'}} onClick={handleIncrement}>{'>'}</Button>
                 </Col>
