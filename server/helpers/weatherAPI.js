@@ -18,8 +18,10 @@ WeatherAPI.getCurrWeatherData = async () => {
     }
 };
 
-WeatherAPI.getForecast = async (coord) => {
-    let cityName = await SettingsAPI.getLocationName();
+WeatherAPI.getForecast = async () => {
+    let currWeatherData = await WeatherAPI.getCurrWeatherData();
+    let coord = 'lat=' + currWeatherData.coord.lat + '&lon=' + currWeatherData.coord.lon;
+    console.log(`coords = ${coord}`);
     var forecastLink = 'https://api.openweathermap.org/data/2.5/onecall?' + coord + '&appid=' + weather_secret + '&units=imperial';
     try {
         const response = await axios.get(forecastLink);

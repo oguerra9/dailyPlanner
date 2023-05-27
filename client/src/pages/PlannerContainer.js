@@ -6,6 +6,7 @@ import ToDoList from '../components/ToDoList';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import CalendarContainer from '../components/CalendarContainer';
+import WeatherContainer from '../components/WeatherContainer';
 
 import { usePlannerContext } from '../utils/PlannerContext';
 
@@ -14,7 +15,13 @@ import { usePlannerContext } from '../utils/PlannerContext';
 
 export default function PlannerContainer(props) {
 
-    const { view, changeView } = usePlannerContext();
+    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate, boxDate, changeBoxDate } = usePlannerContext();
+
+    let todaysDate = (new Date()).getTimelessStamp();
+    console.log(`todays date = ${todaysDate}`);
+
+    let windowDate = TSDate.getTimelessStamp();
+    console.log(`window date = ${windowDate}`);
 
     changeView(props.propView);
 
@@ -31,6 +38,11 @@ export default function PlannerContainer(props) {
     const renderCalendarContainer = () => {
         console.log('[PlannerContainer/PlannerContainer/renderCalendarContainer]: rendering calendar');
         return <CalendarContainer />
+    };
+
+    const renderWeatherContainer = () => {
+        console.log('[PlannerContainer/PlannerContainer/renderWeatherContainer]: rendering weather');
+        return <WeatherContainer />   
     };
 
     // const renderTimeView = () => {
@@ -63,11 +75,15 @@ export default function PlannerContainer(props) {
     //     </div>
     // );
 
+
     return (
         <div style={{'backgroundColor':'white', 'border':'1px solid blue'}}>
             <DateBar />
             {(view === 'day') ? (
                 <Row className="justify-content-md-center">
+                    {(todaysDate === windowDate) ? (
+                        <Col className="col-lg-3">{renderWeatherContainer()}</Col>
+                    ) : (<></>)}
                     <Col className="col-lg-6">{renderEventsContainer()}</Col>
                     <Col className="col-lg-3">{renderToDoList()}</Col>
                 </Row>
