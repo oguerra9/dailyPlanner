@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import Date from '../utils/dateMethods';
 import DataService from '../services/dataService';
 import { usePlannerContext } from '../utils/PlannerContext';
@@ -27,15 +27,11 @@ export default function DayBoxList(props) {
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
 
-    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
-
     useEffect(() => {
-        console.log(`[EventsContainer/EventList/useEffect]: rendering event list`);
         getDayEvents(dayTS);
     }, []);
 
     const getDayEvents = (dayTS) => {
-        console.log(`[EventsContainer/EventList/getListEvents]: getListEvents called`);
         (DataService.getPlannedDay(dayTS)).then((response) => {
             setMyEvents(response.data);
             setLoading(false);
@@ -52,8 +48,6 @@ export default function DayBoxList(props) {
                 <p id="MonthEvent">Loading...</p>
             </div>);
     }
-
-    console.log(`[DayBoxList/DayBoxList]: events for ${dayDate} = ${JSON.stringify(myEvents)}`);
 
     const renderDetailedEvents = () => {
         if (myEvents.length === 0) {

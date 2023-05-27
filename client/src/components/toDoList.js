@@ -9,7 +9,7 @@ import DataService from '../services/dataService';
 import Popover from 'react-bootstrap/Popover';
 import Modal from 'react-bootstrap/Modal';
 
-export default function ToDoList(props) {
+export default function ToDoList() {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);

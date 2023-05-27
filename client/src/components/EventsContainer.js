@@ -13,11 +13,9 @@ import { usePlannerContext } from '../utils/PlannerContext';
 
 export default function EventsContainer() {
 
-    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
+    const { view, timestamp } = usePlannerContext();
 
     const [show, setShow] = useState(false);
-    const [myEvents, setMyEvents] = useState([]);
-    const [isLoading, setLoading] = useState(true);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -64,7 +62,7 @@ function EventList() {
     const [myEvents, setMyEvents] = useState([]);
     const [isLoading, setLoading] = useState([]);
 
-    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
+    const { view, timestamp } = usePlannerContext();
 
     useEffect(() => {
         console.log(`[EventsContainer/EventList/useEffect]: re-rendering event list`);

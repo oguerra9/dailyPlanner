@@ -1,5 +1,4 @@
-import { React, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { React, useState } from 'react';
 import Date from '../utils/dateMethods';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -7,24 +6,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import '../index.css';
 import { usePlannerContext } from '../utils/PlannerContext';
-import DataService from '../services/dataService';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
-import ToDoList from './ToDoList';
+
 
 export default function DateBar() {
 
     const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
     
-    const [myEvents, setMyEvents] = useState([]);
-
-    const [isLoading, setLoading] = useState(false);
-
     const [pageDate, setPageDate] = useState(new Date(timestamp));
-
-    const [isPopulated, setPopulated] = useState(false);
-
-    console.log(`[DateBar: DateBar:] view: ${view} time: ${new Date(timestamp)}`);
 
     const handleIncrement = () => {
         if (view === 'day') {

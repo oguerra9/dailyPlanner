@@ -3,14 +3,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Date from '../utils/dateMethods';
-import EventsContainer from './EventsContainer';
 import { usePlannerContext } from '../utils/PlannerContext';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import NewEventForm from './NewEventForm';
-import DataService from '../services/dataService';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
 import DayBoxList from './DayBoxList';
 import Card from 'react-bootstrap/Card';
 import '../index.css';
@@ -18,17 +13,10 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 
 
 export default function CalendarContainer() {
-    const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
+    const { view, timestamp, TSDate } = usePlannerContext();
 
     const [dates, setDates] = useState([]);
     const [months, setMonths] = useState([]);
-
-    let mayfirst = new Date();
-    mayfirst.setMonth(4);
-    mayfirst.setDate(1);
-    mayfirst.setFullYear(2023);
-    console.log(`may first = ${mayfirst}`);
-    console.log(`may first ts = ${mayfirst.getTime()}`);
 
     const [canvasDate, setCanvasDate] = useState(TSDate);
 
@@ -36,7 +24,7 @@ export default function CalendarContainer() {
     const [showModal, setShowModal] = useState(false);
 
     const handleCloseCanvas = () => setShowCanvas(false);
-    const handleShowCanvas = (dayDate) => setShowCanvas(true);
+    const handleShowCanvas = () => setShowCanvas(true);
     
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
@@ -50,7 +38,6 @@ export default function CalendarContainer() {
         getDateArr();
         setDates(dateArr);
         setMonths(monthArr);
-        //getDaysEvents();
     }, [view, timestamp]);
 
     const getDateArr = () => {
