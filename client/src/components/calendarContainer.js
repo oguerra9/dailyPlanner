@@ -23,6 +23,13 @@ export default function CalendarContainer() {
     const [dates, setDates] = useState([]);
     const [months, setMonths] = useState([]);
 
+    let mayfirst = new Date();
+    mayfirst.setMonth(4);
+    mayfirst.setDate(1);
+    mayfirst.setFullYear(2023);
+    console.log(`may first = ${mayfirst}`);
+    console.log(`may first ts = ${mayfirst.getTime()}`);
+
     const [canvasDate, setCanvasDate] = useState(TSDate);
 
     const [showCanvas, setShowCanvas] = useState(false);
@@ -126,8 +133,7 @@ export default function CalendarContainer() {
             <Offcanvas show={showCanvas} onHide={handleCloseCanvas} {...canvasDate}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>
-                        Offcanvas
-                        <Button onClick={handleShowModal}>{'+'}</Button>
+                        Day's Events
                     </Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>

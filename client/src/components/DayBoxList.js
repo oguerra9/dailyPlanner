@@ -7,6 +7,9 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import NewEventForm from './NewEventForm';
 
 import '../index.css';
 
@@ -18,6 +21,11 @@ export default function DayBoxList(props) {
 
     let dayDate = props.dayDate;
     let dayTS = dayDate.getTime();
+
+    const [showModal, setShowModal] = useState(false);
+
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
 
     const { view, changeView, timestamp, changeTimestamp, TSDate, changeTSDate } = usePlannerContext();
 
@@ -47,47 +55,64 @@ export default function DayBoxList(props) {
 
     console.log(`[DayBoxList/DayBoxList]: events for ${dayDate} = ${JSON.stringify(myEvents)}`);
 
-    if (detailedView === true) {
+    const renderDetailedEvents = () => {
         if (myEvents.length === 0) {
             return (
-                <Container>
-                    <h1>{getDayString()}</h1>
-                    <ul>
-                        <li>---</li>
-                    </ul>
-                </Container>
+                <ul>
+                    <li>---</li>
+                </ul>
             );
         }
         return (
-            <Container>
-                <h1>{getDayString()}</h1>
-                <ul>
-                    {myEvents.map(planned => (
-                        <OverlayTrigger
-                            trigger="hover"
-                            key={planned.id}
-                            placement="right"
-                            overlay={
-                                <Popover id={`plannedPopover${planned.id}`}>
-                                    <Popover.Header as="h3">{planned.planned_title}</Popover.Header>
-                                    <Popover.Body style={{'margin':'0px 10px 0px 10px'}}>
-                                        <Col>
-                                            <Row>{planned.planned_description}</Row>
-                                            <Row>Category: {planned.category.category_name}</Row>
-                                            <Row>Plan Type: {planned.planType.planType_name}</Row>
-                                        </Col>
-                                    </Popover.Body>
-                                </Popover>
-                            }
-                            >
-                                <li key={planned.id} className={planned.category.category_name} id={planned.planType.planType_name}>
-                                    <h5>{planned.planned_title}</h5>
-                                    <h6>{planned.planned_description}</h6>
-                                </li>
-                        </OverlayTrigger>
-                    ))}
-                </ul>
-            </Container>
+            <ul>
+                {myEvents.map(planned => (
+                    <OverlayTrigger
+                        trigger="hover"
+                        key={planned.id}
+                        placement="right"
+                        overlay={
+                            <Popover id={`plannedPopover${planned.id}`}>
+                                <Popover.Header as="h3">{planned.planned_title}</Popover.Header>
+                                <Popover.Body style={{'margin':'0px 10px 0px 10px'}}>
+                                    <Col>
+                                        <Row>{planned.planned_description}</Row>
+                                        <Row>Category: {planned.category.category_name}</Row>
+                                        <Row>Plan Type: {planned.planType.planType_name}</Row>
+                                    </Col>
+                                </Popover.Body>
+                            </Popover>
+                        }
+                        >
+                            <li key={planned.id} className={planned.category.category_name} id={planned.planType.planType_name}>
+                                <h5>{planned.planned_title}</h5>
+                                <h6>{planned.planned_description}</h6>
+                            </li>
+                    </OverlayTrigger>
+                ))}
+            </ul>
+        );
+    }
+
+    if (detailedView === true) {
+        return (
+            <>
+                <Container>
+                    <Row>
+                        <Col><h1>{getDayString()}</h1></Col>
+                            <Button onClick={handleShowModal}>{'Add Events'}</Button>
+                    </Row>
+                    {renderDetailedEvents()}
+                </Container>
+
+                <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>New Event</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <NewEventForm />
+                    </Modal.Body>
+                </Modal>
+            </>
         );
     }
 
