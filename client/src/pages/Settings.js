@@ -27,14 +27,17 @@ function Settings() {
     }
 
     return (
-        <Container style={{'width':'30%'}}>
-            {mySettings.map(setting => (
-              <Row key={`setting${setting.id}`}>
-                <Col className={setting.setting_name}>{setting.setting_name}</Col>
-                <Col className={setting.setting_value}>{setting.setting_value}</Col>
-              </Row>
-            ))}
-        </Container>
+        <>
+            <h1 id="settingsHeader" md="auto">Settings</h1>
+            <Container style={{'width':'30%'}}>
+                {mySettings.map(setting => (
+                <Row key={`setting${setting.id}`}>
+                    <Col className={setting.setting_name}>{setting.setting_name}</Col>
+                    <Col className={setting.setting_value}>{setting.setting_value}</Col>
+                </Row>
+                ))}
+            </Container>
+        </>
     );
 }
 

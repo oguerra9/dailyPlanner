@@ -85,3 +85,8 @@ NavBar {
   border-radius: 0;
   height: 700px;
 }
+
+#settingsHeader {
+  justify-content: center;
+  background-color: white;
+}

@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import Date from '../utils/dateMethods';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
